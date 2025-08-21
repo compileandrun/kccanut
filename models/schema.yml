@@ -1,0 +1,29 @@
+
+version: 2
+
+models:
+  - name: refunds
+    description: "This table contains refund data"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+sources:
+  - name: my_cases
+    description: "This is my raw data source"
+    tables:
+      - name: pergolux_shopify_ext_2
+        description: "This table contains raw data imported from an external source"
+        columns:
+          - name: id
+            description: "The primary key for this table"
+            data_tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: "Timestamp when the record was created"
+            data_tests:
+              - not_null
