@@ -1,0 +1,25 @@
+sources:
+  - name: raw_data #name I will use to refer to this source in my models
+    description: "This is the raw data source for my_cases project."
+    schema: raw_data_my_cases #name of the dataset where the data is located
+    #database: raw # Uncomment and set this value if your source is in a different database/project
+    tables:
+      - name: raw_customers
+        description: "This table contains raw customer data."
+        data_tests: #data tests to be run on this source table
+          - not_null:
+              column_name: id
+              description: "Customer ID should never be null"
+          - unique:
+              column_name: id
+      - name: raw_orders
+        config: #configuration for this source table
+          loaded_at_field: ordered_at #indicates the field that tells when the record was created
+          freshness: #indicates how fresh the data should be
+            warn_after: {count: 24, period: day} #warn if the data is older than 24 hours
+            error_after: {count: 4800, period: day} #error if the data is older than 48 hours
+        columns:
+          - name: id
+            tests: 
+              - dbt_utils.not_empty_string
+      - name: raw_products

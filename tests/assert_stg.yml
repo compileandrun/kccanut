@@ -1,0 +1,4 @@
+version: 2
+data_tests:
+  - name: assert_stg_orders_no_negative
+    description: Ensure there are no negative order totals in the staging orders table.

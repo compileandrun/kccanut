@@ -7,7 +7,13 @@
     Try changing "table" to "view" below
 */
 
-{{ config(materialized='table') }}
+{{ 
+    config(
+        materialized='table'
+    ) 
+    }}
+
+with cte as (select 1)
 
 select id, financial_status
 from {{ source('my_cases','pergolux_shopify_ext_2') }}

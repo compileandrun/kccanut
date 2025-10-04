@@ -1,0 +1,47 @@
+models:
+  - name: stg_my_cases__customers
+    description: "This table is a staging table for customers data."
+    columns:
+      - name: customer_id
+        description: "The unique identifier for a customer."
+        tests:
+          - unique 
+          - not_null
+
+      - name: name
+        tests: 
+          - not_null
+
+      - name: null_column
+        tests:
+          - not_null:
+              config:
+                store_failures: true
+                #error_if: ">100000"
+                severity: warn
+
+  - name: stg_my_cases__products
+    description: "This table is a staging table for products data."
+    columns:
+      - name: type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['beverage','jaffle']
+
+  - name: stg_my_cases__orders
+    description: This is a test description. #"{{doc('staging_orders')}}"
+    columns: 
+      - name: customer_id
+        tests: 
+          - relationships:
+              arguments:
+                to: ref('stg_my_cases__customers')
+                field: customer_id
+      - name: order_total
+        data_tests:
+          - no_neg
+          - dbt_expectations.expect_table_column_count_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 15
