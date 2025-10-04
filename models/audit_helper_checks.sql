@@ -14,3 +14,5 @@
     a_relation = old_relation,
     b_relation = dbt_relation
 ) }}
+
+{##}
